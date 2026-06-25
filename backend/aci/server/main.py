@@ -33,9 +33,6 @@ from aci.server.routes import (
     projects,
     webhooks,
 )
-from aci.server.sentry import setup_sentry
-
-from aci.server.sentry import setup_sentry
 
 check_dependencies()
 
