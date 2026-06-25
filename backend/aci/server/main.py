@@ -35,9 +35,11 @@ from aci.server.routes import (
 )
 from aci.server.sentry import setup_sentry
 
+from aci.server.sentry import setup_sentry
+
 check_dependencies()
 
-setup_sentry()
+# setup_sentry()
 
 setup_logging(
     formatter=JsonFormatter(

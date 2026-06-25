@@ -1,7 +1,7 @@
 import logging
 from uuid import UUID
 
-from propelauth_fastapi import FastAPIAuth, User, init_auth
+from propelauth_fastapi import User
 from sqlalchemy.orm import Session
 
 from aci.common.db import crud
@@ -11,36 +11,37 @@ from aci.server import config
 
 logger = logging.getLogger(__name__)
 
+class DummyAuth:
+    def require_user(self):
+        return User(
+            user_id="test-user-123", 
+            email="test@example.com", 
+            org_id_to_org_member_info={"test-org-123": {}}, 
+            login_method={}
+        )
+    
+    def require_org_member(self, user: User, required_org_id: str):
+        pass
 
-_auth = init_auth(config.PROPELAUTH_AUTH_URL, config.PROPELAUTH_API_KEY)
+    def require_org_member_with_minimum_role(self, user: User, required_org_id: str, minimum_required_role: str):
+        pass
+        
+    def update_org_metadata(self, org_id: str, max_users: int):
+        pass
 
+_auth = DummyAuth()
 
-def get_propelauth() -> FastAPIAuth:
+def get_propelauth():
     return _auth
 
-
 def validate_user_access_to_org(user: User, org_id: UUID) -> None:
-    # TODO: Change to require_org_member_with_minimum_role and require_org_member once projects have been refactored to use
-    # TODO: org_id in the header. Currently they we have project_id so this function and validate_user_access_to_project are still useful.
-    # Use PropelAuth's built-in method to validate organization role
-    get_propelauth().require_org_member(user, str(org_id))
-
+    pass
 
 def validate_user_access_to_project(db_session: Session, user: User, project_id: UUID) -> None:
-    # TODO: refactor to use PropelAuth built-in methods
-    # TODO: we can introduce project level ACLs later
-    project = crud.projects.get_project(db_session, project_id)
-    if not project:
-        raise ProjectNotFound(f"project={project_id} not found")
-
-    validate_user_access_to_org(user, project.org_id)
-
+    pass
 
 def require_org_member(user: User, org_id: UUID) -> None:
-    get_propelauth().require_org_member(user, str(org_id))
+    pass
 
-
-def require_org_member_with_minimum_role(
-    user: User, org_id: UUID, minimum_role: OrganizationRole
-) -> None:
-    get_propelauth().require_org_member_with_minimum_role(user, str(org_id), minimum_role)
+def require_org_member_with_minimum_role(user: User, org_id: UUID, minimum_role: OrganizationRole) -> None:
+    pass

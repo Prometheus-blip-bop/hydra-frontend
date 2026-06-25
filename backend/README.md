@@ -1,3 +1,13 @@
+---
+title: HydraV1
+emoji: 🚀
+colorFrom: blue
+colorTo: red
+sdk: docker
+app_port: 8000
+pinned: false
+---
+
 # ACI.dev Backend
 
 [![Backend CI](https://github.com/aipotheosis-labs/aci/actions/workflows/backend.yml/badge.svg)](https://github.com/aipotheosis-labs/aci/actions/workflows/backend.yml)

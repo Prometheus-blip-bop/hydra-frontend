@@ -1,6 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getProjects } from "@/lib/api/project";
-
 export async function GET(request: NextRequest) {
   // Use telemetry token for the actual logs API call
   const telemetryToken = process.env.TELEMETRY_API_TOKEN;

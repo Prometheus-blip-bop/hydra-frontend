@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { Project } from "@/lib/types/project";
@@ -48,7 +49,7 @@ const MetaInfoContext = createContext<MetaInfoContextType | undefined>(
 export const MetaInfoProvider = ({ children }: { children: ReactNode }) => {
     const userClass = dummyUser;
     const accessToken = "dummy_token";
-    const refreshAuthInfo = async () => {};
+    const refreshAuthInfo = useCallback(async () => {}, []);
     const [orgs, setOrgs] = useState<any[]>([]);
     const [activeOrg, setActiveOrg] = useState<any | null>(null);
     const [activeProject, setActiveProject] = useState<Project | null>(null);
