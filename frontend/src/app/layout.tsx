@@ -9,7 +9,6 @@ import { AppSidebar } from "@/components/layout/app-sidebar";
 import { MetaInfoProvider } from "@/components/context/metainfo";
 import { Toaster } from "@/components/ui/sonner";
 import { Analytics } from "@vercel/analytics/next";
-import { RequiredAuthProvider } from "@propelauth/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { ThemeProvider } from "@/components/theme-provider";
@@ -106,7 +105,6 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <QueryClientProvider client={queryClient}>
-            <RequiredAuthProvider authUrl={process.env.NEXT_PUBLIC_AUTH_URL!}>
               <MetaInfoProvider>
                 <SidebarProvider>
                   <AppSidebar />
@@ -120,7 +118,6 @@ export default function RootLayout({
                 </SidebarProvider>
               </MetaInfoProvider>
               <Footer />
-            </RequiredAuthProvider>
             <ReactQueryDevtools initialIsOpen={false} />
           </QueryClientProvider>
           <Toaster

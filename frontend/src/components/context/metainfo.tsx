@@ -2,11 +2,6 @@
 
 import { Project } from "@/lib/types/project";
 import {
-  OrgMemberInfoClass,
-  WithLoggedInAuthInfoProps,
-  withRequiredAuthInfo,
-} from "@propelauth/react";
-import {
   createContext,
   ReactNode,
   useContext,
@@ -15,14 +10,30 @@ import {
   useCallback,
 } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
-import { UserClass } from "@propelauth/javascript";
 import { useProjects, useReloadProjects } from "@/hooks/use-project";
 
+// Dummy classes to replace PropelAuth
+class DummyOrg {
+  orgId = "107e06da-e857-4864-bc1d-4adcba02ab76";
+  orgName = "Test Org";
+  urlSafeOrgName = "test-org";
+}
+
+class DummyUser {
+  userId = "test-user-123";
+  email = "test@example.com";
+  firstName = "Test";
+  lastName = "User";
+  getOrgs() { return [new DummyOrg()]; }
+}
+
+const dummyUser = new DummyUser() as any;
+
 interface MetaInfoContextType {
-  user: UserClass;
-  orgs: OrgMemberInfoClass[];
-  activeOrg: OrgMemberInfoClass;
-  setActiveOrg: (org: OrgMemberInfoClass) => void;
+  user: any;
+  orgs: any[];
+  activeOrg: any;
+  setActiveOrg: (org: any) => void;
   projects: Project[];
   activeProject: Project;
   reloadActiveProject: () => Promise<void>;
@@ -34,14 +45,12 @@ const MetaInfoContext = createContext<MetaInfoContextType | undefined>(
   undefined,
 );
 
-interface MetaInfoProviderProps extends WithLoggedInAuthInfoProps {
-  children: ReactNode;
-}
-
-export const MetaInfoProvider = withRequiredAuthInfo<MetaInfoProviderProps>(
-  ({ children, userClass, accessToken, refreshAuthInfo }) => {
-    const [orgs, setOrgs] = useState<OrgMemberInfoClass[]>([]);
-    const [activeOrg, setActiveOrg] = useState<OrgMemberInfoClass | null>(null);
+export const MetaInfoProvider = ({ children }: { children: ReactNode }) => {
+    const userClass = dummyUser;
+    const accessToken = "dummy_token";
+    const refreshAuthInfo = async () => {};
+    const [orgs, setOrgs] = useState<any[]>([]);
+    const [activeOrg, setActiveOrg] = useState<any | null>(null);
     const [activeProject, setActiveProject] = useState<Project | null>(null);
 
     const { data: projects = [], isLoading: projectsLoading } = useProjects(
@@ -139,8 +148,7 @@ export const MetaInfoProvider = withRequiredAuthInfo<MetaInfoProviderProps>(
         )}
       </div>
     );
-  },
-);
+  };
 
 export const useMetaInfo = () => {
   const context = useContext(MetaInfoContext);

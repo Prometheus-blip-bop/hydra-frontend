@@ -4,7 +4,6 @@ import { useMetaInfo } from "@/components/context/metainfo";
 import { Button } from "@/components/ui/button";
 import { createCustomerPortalSession } from "@/lib/api/billing";
 import { useSubscription } from "@/hooks/use-subscription";
-import { useLogoutFunction } from "@propelauth/react";
 import { User, Mail, LogOut } from "lucide-react";
 import { updateProject } from "@/lib/api/project";
 import { toast } from "sonner";
@@ -18,7 +17,6 @@ import { OrgMembersTable } from "@/components/settings/org-members-table";
 export default function SettingsPage() {
   const { user, activeOrg, accessToken, activeProject, reloadActiveProject } =
     useMetaInfo();
-  const logoutFn = useLogoutFunction();
   const { data: subscription, isLoading } = useSubscription();
 
   const handleSaveProjectName = async (newName: string) => {
@@ -68,7 +66,7 @@ export default function SettingsPage() {
             iconClassName="text-destructive"
             containerClassName="bg-destructive/10"
           >
-            <Button variant="destructive" onClick={() => logoutFn(true)}>
+            <Button variant="destructive" onClick={() => window.location.reload()}>
               Sign Out
             </Button>
           </SettingsItem>

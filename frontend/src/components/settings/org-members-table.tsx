@@ -30,11 +30,10 @@ import {
 } from "@/components/ui/select";
 import { Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useAuthInfo } from "@propelauth/react";
 
 export function OrgMembersTable() {
   const { accessToken, activeOrg, user } = useMetaInfo();
-  const { refreshAuthInfo } = useAuthInfo();
+  const refreshAuthInfo = async () => {};
   const router = useRouter();
   const [members, setMembers] = useState<OrganizationUser[]>([]);
   const [inviteEmail, setInviteEmail] = useState("");
