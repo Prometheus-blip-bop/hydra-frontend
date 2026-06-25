@@ -21,3 +21,4 @@ export function getApiKey(project: Project, agentId?: string): string {
   }
   return project.agents[0].api_keys[0].key;
 }
+

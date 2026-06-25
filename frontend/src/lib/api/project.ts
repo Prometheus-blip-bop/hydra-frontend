@@ -12,7 +12,7 @@ export async function getProjects(
         "X-ACI-ORG-ID": orgId,
         Authorization: `Bearer ${accessToken}`,
       },
-      credentials: "include",
+      
     },
   );
 
@@ -38,7 +38,7 @@ export async function createProject(
         "Content-Type": "application/json",
         Authorization: `Bearer ${accessToken}`,
       },
-      credentials: "include",
+      
       body: JSON.stringify({ name, org_id: orgId }),
     },
   );
@@ -68,7 +68,7 @@ export async function updateProject(
         "Content-Type": "application/json",
         Authorization: `Bearer ${accessToken}`,
       },
-      credentials: "include",
+      
       body: JSON.stringify({ name }),
     },
   );
@@ -94,7 +94,7 @@ export async function deleteProject(
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
-      credentials: "include",
+      
     },
   );
 
@@ -104,3 +104,4 @@ export async function deleteProject(
     );
   }
 }
+

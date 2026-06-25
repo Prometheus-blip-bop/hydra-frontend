@@ -90,3 +90,4 @@ export async function getFunctionTimeSeriesData(
 
   return await response.json();
 }
+

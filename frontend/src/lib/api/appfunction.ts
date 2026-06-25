@@ -78,3 +78,4 @@ export async function searchFunctions(
   const functions = await response.json();
   return functions;
 }
+

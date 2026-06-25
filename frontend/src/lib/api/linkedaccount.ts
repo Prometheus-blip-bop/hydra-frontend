@@ -223,3 +223,4 @@ export async function updateLinkedAccount(
   const updatedLinkedAccount = await response.json();
   return updatedLinkedAccount;
 }
+

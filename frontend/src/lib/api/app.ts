@@ -52,3 +52,4 @@ export async function getApp(
   const apps = await getApps([appName], apiKey);
   return apps.length > 0 ? apps[0] : null;
 }
+

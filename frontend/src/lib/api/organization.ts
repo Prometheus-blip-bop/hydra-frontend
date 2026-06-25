@@ -65,3 +65,4 @@ export async function removeUser(
     throw new Error("Failed to remove user from organization");
   }
 }
+

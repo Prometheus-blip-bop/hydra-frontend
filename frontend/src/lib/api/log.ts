@@ -32,3 +32,4 @@ export async function searchFunctionExecutionLogs(
 
   return response.json();
 }
+
