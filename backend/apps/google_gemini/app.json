@@ -1,0 +1,18 @@
+{
+  "name": "GOOGLE_GEMINI",
+  "display_name": "Google Gemini",
+  "logo": "https://logo.clearbit.com/deepmind.google",
+  "provider": "Google",
+  "version": "1.0.0",
+  "description": "Google's most capable AI models. Generate text, process images, and build advanced AI agents.",
+  "security_schemes": {
+    "api_key": {
+      "location": "header",
+      "name": "x-goog-api-key"
+    }
+  },
+  "default_security_credentials_by_scheme": {},
+  "categories": ["AI", "Developer Tools"],
+  "visibility": "public",
+  "active": true
+}
