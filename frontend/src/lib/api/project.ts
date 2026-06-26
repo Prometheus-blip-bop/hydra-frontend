@@ -8,6 +8,7 @@ export async function getProjects(
     `${process.env.NEXT_PUBLIC_API_URL}/v1/projects`,
     {
       method: "GET",
+      credentials: "omit",
       headers: {
         "X-ACI-ORG-ID": orgId,
         Authorization: `Bearer ${accessToken}`,
@@ -34,6 +35,7 @@ export async function createProject(
     `${process.env.NEXT_PUBLIC_API_URL}/v1/projects`,
     {
       method: "POST",
+      credentials: "omit",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${accessToken}`,
@@ -64,6 +66,7 @@ export async function updateProject(
     `${process.env.NEXT_PUBLIC_API_URL}/v1/projects/${projectId}`,
     {
       method: "PATCH",
+      credentials: "omit",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${accessToken}`,
@@ -91,6 +94,7 @@ export async function deleteProject(
     `${process.env.NEXT_PUBLIC_API_URL}/v1/projects/${projectId}`,
     {
       method: "DELETE",
+      credentials: "omit",
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },

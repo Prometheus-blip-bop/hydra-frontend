@@ -10,6 +10,7 @@ export async function getAppDistributionData(
     `${process.env.NEXT_PUBLIC_API_URL}/v1/analytics/app-usage-distribution`,
     {
       method: "GET",
+      credentials: "omit",
       headers: {
         "X-API-KEY": apiKey,
       },
@@ -32,6 +33,7 @@ export async function getFunctionDistributionData(
     `${process.env.NEXT_PUBLIC_API_URL}/v1/analytics/function-usage-distribution`,
     {
       method: "GET",
+      credentials: "omit",
       headers: {
         "X-API-KEY": apiKey,
       },
@@ -54,6 +56,7 @@ export async function getAppTimeSeriesData(
     `${process.env.NEXT_PUBLIC_API_URL}/v1/analytics/app-usage-timeseries`,
     {
       method: "GET",
+      credentials: "omit",
       headers: {
         "X-API-KEY": apiKey,
       },
@@ -76,6 +79,7 @@ export async function getFunctionTimeSeriesData(
     `${process.env.NEXT_PUBLIC_API_URL}/v1/analytics/function-usage-timeseries`,
     {
       method: "GET",
+      credentials: "omit",
       headers: {
         "X-API-KEY": apiKey,
       },

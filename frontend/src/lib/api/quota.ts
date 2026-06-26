@@ -8,6 +8,7 @@ export async function getQuotaUsage(
     `${process.env.NEXT_PUBLIC_API_URL}/v1/billing/quota-usage`,
     {
       method: "GET",
+      credentials: "omit",
       headers: {
         "X-ACI-ORG-ID": orgId,
         "Content-Type": "application/json",

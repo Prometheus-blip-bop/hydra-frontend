@@ -7,6 +7,7 @@ export async function listOrganizationUsers(
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/v1/organizations/users`,
     {
+      credentials: "omit",
       headers: {
         Authorization: `Bearer ${accessToken}`,
         "X-ACI-ORG-ID": orgId,
@@ -31,6 +32,7 @@ export async function inviteToOrganization(
     `${process.env.NEXT_PUBLIC_API_URL}/v1/organizations/invite-user`,
     {
       method: "POST",
+      credentials: "omit",
       headers: {
         Authorization: `Bearer ${accessToken}`,
         "X-ACI-ORG-ID": orgId,
@@ -54,6 +56,7 @@ export async function removeUser(
     `${process.env.NEXT_PUBLIC_API_URL}/v1/organizations/users/${userId}`,
     {
       method: "DELETE",
+      credentials: "omit",
       headers: {
         Authorization: `Bearer ${accessToken}`,
         "X-ACI-ORG-ID": orgId,

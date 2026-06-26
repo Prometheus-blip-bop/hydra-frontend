@@ -7,6 +7,7 @@ export async function getAllLinkedAccounts(
     `${process.env.NEXT_PUBLIC_API_URL}/v1/linked-accounts`,
     {
       method: "GET",
+      credentials: "omit",
       headers: {
         "X-API-KEY": apiKey,
       },
@@ -36,6 +37,7 @@ export async function getAppLinkedAccounts(
     }/v1/linked-accounts?${params.toString()}`,
     {
       method: "GET",
+      credentials: "omit",
       headers: {
         "X-API-KEY": apiKey,
       },
@@ -62,6 +64,7 @@ export async function createAPILinkedAccount(
     `${process.env.NEXT_PUBLIC_API_URL}/v1/linked-accounts/api-key`,
     {
       method: "POST",
+      credentials: "omit",
       headers: {
         "Content-Type": "application/json",
         "X-API-KEY": apiKey,
@@ -100,6 +103,7 @@ export async function createNoAuthLinkedAccount(
     `${process.env.NEXT_PUBLIC_API_URL}/v1/linked-accounts/no-auth`,
     {
       method: "POST",
+      credentials: "omit",
       headers: {
         "Content-Type": "application/json",
         "X-API-KEY": apiKey,
@@ -147,6 +151,7 @@ export async function getOauth2LinkURL(
     }/v1/linked-accounts/oauth2?${params.toString()}`,
     {
       method: "GET",
+      credentials: "omit",
       headers: {
         "Content-Type": "application/json",
         "X-API-KEY": apiKey,
@@ -182,6 +187,7 @@ export async function deleteLinkedAccount(
     `${process.env.NEXT_PUBLIC_API_URL}/v1/linked-accounts/${linkedAccountId}`,
     {
       method: "DELETE",
+      credentials: "omit",
       headers: {
         "X-API-KEY": apiKey,
       },
@@ -204,6 +210,7 @@ export async function updateLinkedAccount(
     `${process.env.NEXT_PUBLIC_API_URL}/v1/linked-accounts/${linkedAccountId}`,
     {
       method: "PATCH",
+      credentials: "omit",
       headers: {
         "Content-Type": "application/json",
         "X-API-KEY": apiKey,

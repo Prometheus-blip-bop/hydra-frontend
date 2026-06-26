@@ -12,6 +12,7 @@ export async function createAgent(
     `${process.env.NEXT_PUBLIC_API_URL}/v1/projects/${projectId}/agents`,
     {
       method: "POST",
+      credentials: "omit",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${accessToken}`,
@@ -55,6 +56,7 @@ export async function updateAgent(
     `${process.env.NEXT_PUBLIC_API_URL}/v1/projects/${projectId}/agents/${agentId}`,
     {
       method: "PATCH",
+      credentials: "omit",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${accessToken}`,
@@ -78,6 +80,7 @@ export async function deleteAgent(
     `${process.env.NEXT_PUBLIC_API_URL}/v1/projects/${projectId}/agents/${agentId}`,
     {
       method: "DELETE",
+      credentials: "omit",
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },

@@ -13,6 +13,7 @@ export async function getAppConfig(
     }/v1/app-configurations?${params.toString()}`,
     {
       method: "GET",
+      credentials: "omit",
       headers: {
         "X-API-KEY": apiKey,
       },
@@ -32,6 +33,7 @@ export async function getAllAppConfigs(apiKey: string): Promise<AppConfig[]> {
     `${process.env.NEXT_PUBLIC_API_URL}/v1/app-configurations`,
     {
       method: "GET",
+      credentials: "omit",
       headers: {
         "X-API-KEY": apiKey,
       },
@@ -72,6 +74,7 @@ export async function createAppConfig(
     `${process.env.NEXT_PUBLIC_API_URL}/v1/app-configurations`,
     {
       method: "POST",
+      credentials: "omit",
       headers: {
         "Content-Type": "application/json",
         "X-API-KEY": apiKey,
@@ -113,6 +116,7 @@ export async function updateAppConfig(
     `${process.env.NEXT_PUBLIC_API_URL}/v1/app-configurations/${appName}`,
     {
       method: "PATCH",
+      credentials: "omit",
       headers: {
         "Content-Type": "application/json",
         "X-API-KEY": apiKey,
@@ -143,6 +147,7 @@ export async function deleteAppConfig(
     `${process.env.NEXT_PUBLIC_API_URL}/v1/app-configurations/${appName}`,
     {
       method: "DELETE",
+      credentials: "omit",
       headers: {
         "Content-Type": "application/json",
         "X-API-KEY": apiKey,

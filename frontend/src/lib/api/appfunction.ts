@@ -14,6 +14,7 @@ export async function executeFunction(
     `${process.env.NEXT_PUBLIC_API_URL}/v1/functions/${functionName}/execute`,
     {
       method: "POST",
+      credentials: "omit",
       headers: {
         "X-API-KEY": apiKey,
         "Content-Type": "application/json",
@@ -63,6 +64,7 @@ export async function searchFunctions(
     `${process.env.NEXT_PUBLIC_API_URL}/v1/functions/search?${searchParams.toString()}`,
     {
       method: "GET",
+      credentials: "omit",
       headers: {
         "X-API-KEY": apiKey,
       },

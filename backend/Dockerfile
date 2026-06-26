@@ -21,4 +21,4 @@ COPY ./aci/alembic /workdir/aci/alembic
 # remove unecessary or sensitive files (.env files are skipped by default specified in .dockerignore)
 RUN rm -rf /workdir/aci/server/tests
 
-CMD sh -c "uv run alembic upgrade head && uvicorn aci.server.main:app --proxy-headers --forwarded-allow-ips=* --host 0.0.0.0 --port 8000 --no-access-log"
+CMD sh -c "uv run alembic upgrade head && uvicorn aci.server.main:app --proxy-headers --forwarded-allow-ips=* --host 0.0.0.0 --port 7860 --no-access-log"

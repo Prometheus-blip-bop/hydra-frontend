@@ -18,7 +18,8 @@ export async function searchFunctionExecutionLogs(
 
   const response = await fetch(`/api/logs?${queryParams.toString()}`, {
     method: "GET",
-    headers: {
+    credentials: "omit",
+      headers: {
       ...(accessToken && { Authorization: `Bearer ${accessToken}` }),
       ...(orgId && { org_id: orgId }),
     },

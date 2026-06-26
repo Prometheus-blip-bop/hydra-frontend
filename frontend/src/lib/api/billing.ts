@@ -8,6 +8,7 @@ export async function getSubscription(
     `${process.env.NEXT_PUBLIC_API_URL}/v1/billing/get-subscription`,
     {
       method: "GET",
+      credentials: "omit",
       headers: {
         "X-ACI-ORG-ID": orgId,
         "Content-Type": "application/json",
@@ -32,6 +33,7 @@ export async function createCheckoutSession(
     `${process.env.NEXT_PUBLIC_API_URL}/v1/billing/create-checkout-session`,
     {
       method: "POST",
+      credentials: "omit",
       headers: {
         "X-ACI-ORG-ID": orgId,
         "Content-Type": "application/json",
@@ -60,6 +62,7 @@ export async function createCustomerPortalSession(
     `${process.env.NEXT_PUBLIC_API_URL}/v1/billing/create-customer-portal-session`,
     {
       method: "POST",
+      credentials: "omit",
       headers: {
         "X-ACI-ORG-ID": orgId,
         "Content-Type": "application/json",
