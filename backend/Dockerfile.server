@@ -12,6 +12,7 @@ ENV PYTHONPATH=/workdir
 # RUN playwright install chromium --with-deps --no-shell
 
 # .env files will be skipped by default specified in .dockerignore
+COPY ./apps /workdir/apps
 COPY ./aci/server /workdir/aci/server
 COPY ./aci/common /workdir/aci/common
 COPY ./aci/__init__.py /workdir/aci/__init__.py
@@ -21,4 +22,6 @@ COPY ./aci/alembic /workdir/aci/alembic
 # remove unecessary or sensitive files (.env files are skipped by default specified in .dockerignore)
 RUN rm -rf /workdir/aci/server/tests
 
-CMD sh -c "uv run alembic upgrade head && uvicorn aci.server.main:app --proxy-headers --forwarded-allow-ips=* --host 0.0.0.0 --port 8000 --no-access-log"
+COPY ./seed_hf.py /workdir/seed_hf.py
+
+CMD sh -c "uv run alembic upgrade head && uv run python seed_hf.py && uvicorn aci.server.main:app --proxy-headers --forwarded-allow-ips=* --host 0.0.0.0 --port 8000 --no-access-log"
