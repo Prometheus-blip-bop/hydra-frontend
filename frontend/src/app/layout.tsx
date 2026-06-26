@@ -51,10 +51,10 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <title>ACI.DEV Platform</title>
+        <title>Neptune Platform</title>
         <meta
           name="description"
-          content="ACI.dev is an agent-computer interface (ACI) platform that allows developers to easily connect AI with 3rd party software by tool-calling APIs."
+          content="Neptune is an agent-computer interface (ACI) platform that allows developers to easily connect AI with 3rd party software by tool-calling APIs."
         />
 
         <link

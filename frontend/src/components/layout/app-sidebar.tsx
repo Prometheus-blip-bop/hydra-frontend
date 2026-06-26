@@ -27,7 +27,7 @@ import { RiSettings3Line, RiLinkUnlinkM } from "react-icons/ri";
 import { AiOutlineRobot } from "react-icons/ai";
 import { HiOutlineChatBubbleBottomCenterText } from "react-icons/hi2";
 import { RiFileList3Line } from "react-icons/ri";
-import { UpgradeButton } from "./subscription-button";
+
 
 import {
   Tooltip,
@@ -107,14 +107,7 @@ export function AppSidebar() {
         >
           {!isCollapsed && (
             <div className="h-9 w-auto relative flex items-center justify-center">
-              <Image
-                src={`/aci-dev-full-logo-${resolvedTheme ?? "light"}-bg.svg`}
-                alt="ACI Dev Logo"
-                width={150}
-                height={30}
-                priority
-                className="object-contain"
-              />
+              <span className="text-xl font-bold tracking-tighter">Neptune</span>
             </div>
           )}
           <SidebarTrigger />
@@ -168,12 +161,7 @@ export function AppSidebar() {
         </SidebarGroup>
       </SidebarContent>
 
-      <div className="px-2 pb-2">
-        <div className="flex flex-col items-center gap-2">
-          <UpgradeButton size="sm" className="w-full" />
-        </div>
-      </div>
-
+      {/* UpgradeButton removed for Neptune as all tiers are free */}
       <SidebarFooter>
         <SidebarMenu>
           <SidebarMenuItem>
