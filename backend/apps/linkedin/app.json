@@ -1,0 +1,25 @@
+{
+  "name": "LINKEDIN",
+  "display_name": "LinkedIn",
+  "logo": "https://logo.clearbit.com/linkedin.com",
+  "provider": "LinkedIn",
+  "version": "1.0.0",
+  "description": "Connect with professionals, share updates, and manage your network on LinkedIn.",
+  "security_schemes": {
+    "oauth2": {
+      "location": "header",
+      "name": "Authorization",
+      "prefix": "Bearer",
+      "client_id": "{{ LINKEDIN_CLIENT_ID }}",
+      "client_secret": "{{ LINKEDIN_CLIENT_SECRET }}",
+      "scope": "r_emailaddress r_liteprofile w_member_social r_member_social",
+      "authorize_url": "https://www.linkedin.com/oauth/v2/authorization",
+      "access_token_url": "https://www.linkedin.com/oauth/v2/accessToken",
+      "refresh_token_url": "https://www.linkedin.com/oauth/v2/accessToken"
+    }
+  },
+  "default_security_credentials_by_scheme": {},
+  "categories": ["Social Media", "Professional"],
+  "visibility": "public",
+  "active": true
+}

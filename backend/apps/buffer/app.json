@@ -1,0 +1,25 @@
+{
+  "name": "BUFFER",
+  "display_name": "Buffer",
+  "logo": "https://logo.clearbit.com/buffer.com",
+  "provider": "Buffer",
+  "version": "1.0.0",
+  "description": "Schedule and manage social media posts across 15+ networks with a single integration.",
+  "security_schemes": {
+    "oauth2": {
+      "location": "header",
+      "name": "Authorization",
+      "prefix": "Bearer",
+      "client_id": "{{ BUFFER_CLIENT_ID }}",
+      "client_secret": "{{ BUFFER_CLIENT_SECRET }}",
+      "scope": "",
+      "authorize_url": "https://buffer.com/oauth2/authorize",
+      "access_token_url": "https://api.bufferapp.com/1/oauth2/token.json",
+      "refresh_token_url": "https://api.bufferapp.com/1/oauth2/token.json"
+    }
+  },
+  "default_security_credentials_by_scheme": {},
+  "categories": ["Social Media", "Marketing"],
+  "visibility": "public",
+  "active": true
+}
