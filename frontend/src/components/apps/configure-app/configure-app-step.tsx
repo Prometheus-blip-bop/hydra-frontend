@@ -104,7 +104,7 @@ export function ConfigureAppStep({
     supported_security_schemes?.[currentSecurityScheme] ?? {};
   const scopes = scope.split(/[\s,]+/).filter(Boolean);
 
-  const [useACIDevOAuth2, setUseACIDevOAuth2] = useState(false);
+  const [useACIDevOAuth2, setUseACIDevOAuth2] = useState(true);
   const clientId = form.watch("client_id");
   const clientSecret = form.watch("client_secret");
   const redirectUrl = form.watch("redirect_url");
@@ -240,17 +240,7 @@ export function ConfigureAppStep({
             )}
           />
 
-          {currentSecurityScheme === "oauth2" && (
-            <div className="flex items-center gap-2">
-              <Switch
-                checked={useACIDevOAuth2}
-                onCheckedChange={setUseACIDevOAuth2}
-              />
-              <Label className="text-sm font-medium">
-                Use ACI.dev&apos;s OAuth2 App
-              </Label>
-            </div>
-          )}
+          {/* OAuth2 Toggle Removed - Hardcoded to true */}
 
           {currentSecurityScheme === "oauth2" && !useACIDevOAuth2 && (
             <div className="grid gap-6 lg:grid-cols-2">
@@ -427,22 +417,7 @@ export function ConfigureAppStep({
             </div>
           )}
 
-          {currentSecurityScheme === "oauth2" && useACIDevOAuth2 && (
-            <div className="bg-yellow-100 border border-yellow-300 p-3 rounded flex items-start gap-2">
-              {/* <BsQuestionCircle className="mt-1 h-4 w-4 text-yellow-700" /> */}
-              <p className="text-sm text-yellow-900">
-                We <strong>recommend</strong> using your own OAuth2 app in
-                production.
-                {/* <a
-                  href="https://www.aci.dev/docs/core-concepts/linked-account#linking-oauth2-account"
-                  target="_blank"
-                  className="underline text-blue-700"
-                >
-                  See documentation →
-                </a> */}
-              </p>
-            </div>
-          )}
+          {/* Warning Banner Removed */}
 
           <DialogFooter>
             <Button
