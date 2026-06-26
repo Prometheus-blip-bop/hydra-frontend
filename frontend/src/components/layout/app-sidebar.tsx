@@ -35,7 +35,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { ThemeToggle } from "../theme-toggle";
-import { useTheme } from "next-themes";
+
 
 const showLogDashboard =
   process.env.NEXT_PUBLIC_FEATURE_LOG_DASHBOARD === "true";
