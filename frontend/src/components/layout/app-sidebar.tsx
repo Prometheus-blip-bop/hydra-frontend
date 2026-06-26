@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
+
 import { GrAppsRounded } from "react-icons/gr";
 // import { GoHome } from "react-icons/go";
 import { cn } from "@/lib/utils";
@@ -94,7 +94,6 @@ export function AppSidebar() {
   const { state } = useSidebar();
   const isCollapsed = state === "collapsed";
   const pathname = usePathname();
-  const { resolvedTheme } = useTheme();
 
   return (
     <Sidebar variant="inset" collapsible="icon" className="flex flex-col">
