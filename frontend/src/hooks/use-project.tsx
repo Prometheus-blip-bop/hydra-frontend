@@ -76,7 +76,10 @@ export const useCreateProject = () => {
 };
 
 type UpdateProjectParams = {
-  name: string;
+  name?: string;
+  llm_api_key?: string;
+  llm_base_url?: string;
+  llm_model?: string;
 };
 
 export const useUpdateProject = () => {
@@ -85,7 +88,7 @@ export const useUpdateProject = () => {
 
   return useMutation<Project, Error, UpdateProjectParams>({
     mutationFn: (params) =>
-      updateProject(accessToken, activeProject.id, params.name),
+      updateProject(accessToken, activeProject.id, params.name, params.llm_api_key, params.llm_base_url, params.llm_model),
     onSuccess: (updatedProject) => {
       queryClient.setQueryData<Project[]>(
         projectKeys.all(activeOrg.orgId),

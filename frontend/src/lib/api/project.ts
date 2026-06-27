@@ -60,7 +60,10 @@ export async function createProject(
 export async function updateProject(
   accessToken: string,
   projectId: string,
-  name: string,
+  name?: string,
+  llm_api_key?: string,
+  llm_base_url?: string,
+  llm_model?: string,
 ): Promise<Project> {
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/v1/projects/${projectId}`,
@@ -72,7 +75,7 @@ export async function updateProject(
         Authorization: `Bearer ${accessToken}`,
       },
       
-      body: JSON.stringify({ name }),
+      body: JSON.stringify({ name, llm_api_key, llm_base_url, llm_model }),
     },
   );
 
