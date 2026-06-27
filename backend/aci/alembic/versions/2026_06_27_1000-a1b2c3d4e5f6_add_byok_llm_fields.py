@@ -18,14 +18,14 @@ depends_on: Union[str, Sequence[str], None] = None
 
 
 def upgrade() -> None:
-    op.add_column('project', sa.Column('llm_api_key', sa.String(), nullable=True))
-    op.add_column('project', sa.Column('llm_base_url', sa.String(), nullable=True))
-    op.add_column('project', sa.Column('llm_model', sa.String(), nullable=True))
-    op.add_column('project', sa.Column('message_count', sa.Integer(), server_default='0', nullable=False))
+    op.add_column('projects', sa.Column('llm_api_key', sa.String(), nullable=True))
+    op.add_column('projects', sa.Column('llm_base_url', sa.String(), nullable=True))
+    op.add_column('projects', sa.Column('llm_model', sa.String(), nullable=True))
+    op.add_column('projects', sa.Column('message_count', sa.Integer(), server_default='0', nullable=False))
 
 
 def downgrade() -> None:
-    op.drop_column('project', 'message_count')
-    op.drop_column('project', 'llm_model')
-    op.drop_column('project', 'llm_base_url')
-    op.drop_column('project', 'llm_api_key')
+    op.drop_column('projects', 'message_count')
+    op.drop_column('projects', 'llm_model')
+    op.drop_column('projects', 'llm_base_url')
+    op.drop_column('projects', 'llm_api_key')
