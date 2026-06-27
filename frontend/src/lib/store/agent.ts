@@ -122,7 +122,7 @@ export const useAgentStore = create<AgentState>()(
         const linkedAccounts = get().linkedAccounts || [];
         const ownerId = get().selectedLinkedAccountOwnerId;
 
-        let filteredApps = get().apps.filter((app) => {
+        const filteredApps = get().apps.filter((app) => {
           const isAllowed = allowedApps.includes(app.name);
           const hasLinkedAccount = linkedAccounts.some(
             (account) =>
