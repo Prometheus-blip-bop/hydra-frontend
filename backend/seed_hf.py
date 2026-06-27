@@ -99,18 +99,19 @@ def main():
         try:
             upsert_schema = AppUpsert(**app_data)
             
-            app_obj = apps.get_app(db_session, app_name, public_only=False, active_only=False)
+            actual_app_name = app_data.get("name", app_name.upper())
+            app_obj = apps.get_app(db_session, actual_app_name, public_only=False, active_only=False)
             dummy_embedding = [0.0] * 1024 
             
             if not app_obj:
                 app_obj = apps.create_app(db_session, upsert_schema, app_embedding=dummy_embedding)
-                print(f"Created app {app_name}", flush=True)
+                print(f"Created app {actual_app_name}", flush=True)
             else:
                 app_obj = apps.update_app(db_session, app_obj, upsert_schema, app_embedding=dummy_embedding)
-                print(f"Updated app {app_name}", flush=True)
+                print(f"Updated app {actual_app_name}", flush=True)
                 
-            apps.set_app_active_status(db_session, app_name, active=True)
-            apps.set_app_visibility(db_session, app_name, visibility=Visibility.PUBLIC)
+            apps.set_app_active_status(db_session, actual_app_name, active=True)
+            apps.set_app_visibility(db_session, actual_app_name, visibility=Visibility.PUBLIC)
             
             security_scheme = SecurityScheme.OAUTH2
             credentials = {
@@ -122,13 +123,13 @@ def main():
             # Clear any stale overrides in AppConfiguration so it falls back to the App's injected credentials
             from sqlalchemy import select
             from aci.common.db.sql_models import AppConfiguration
-            statement = select(AppConfiguration).filter_by(app_name=app_name)
+            statement = select(AppConfiguration).filter_by(app_name=actual_app_name)
             app_configs = db_session.execute(statement).scalars().all()
             for conf in app_configs:
                 conf.security_scheme_overrides = {}
                 
         except Exception as e:
-            print(f"Error processing {app_name}: {e}", flush=True)
+            print(f"Error processing {actual_app_name}: {e}", flush=True)
             
     try:
         db_session.commit()
