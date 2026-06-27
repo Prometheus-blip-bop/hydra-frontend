@@ -118,26 +118,20 @@ export const useAgentStore = create<AgentState>()(
         }
       },
       getAvailableApps: () => {
-        let filteredApps = get().apps.filter((app) =>
-          get().allowedApps.includes(app.name),
-        );
-        // filter from linked accounts
-        if (!get().selectedLinkedAccountOwnerId) {
-          filteredApps = filteredApps.filter((app) =>
-            get().linkedAccounts.some(
-              (linkedAccount) => linkedAccount.app_name === app.name,
-            ),
+        const allowedApps = get().allowedApps || [];
+        const linkedAccounts = get().linkedAccounts || [];
+        const ownerId = get().selectedLinkedAccountOwnerId;
+
+        let filteredApps = get().apps.filter((app) => {
+          const isAllowed = allowedApps.includes(app.name);
+          const hasLinkedAccount = linkedAccounts.some(
+            (account) =>
+              account.app_name === app.name &&
+              (!ownerId || account.linked_account_owner_id === ownerId)
           );
-        } else {
-          filteredApps = filteredApps.filter((app) =>
-            get().linkedAccounts.some(
-              (linkedAccount) =>
-                linkedAccount.app_name === app.name &&
-                linkedAccount.linked_account_owner_id ===
-                  get().selectedLinkedAccountOwnerId,
-            ),
-          );
-        }
+          return isAllowed || hasLinkedAccount;
+        });
+
         return filteredApps;
       },
       fetchAppFunctions: async (apiKey: string) => {

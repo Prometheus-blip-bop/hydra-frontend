@@ -63,7 +63,7 @@ def main():
         "google_calendar", "google_cloud_storage", "google_contacts", 
         "google_docs", "google_drive", "google_meet", "google_photos", 
         "google_sheets", "google_tasks", "google_translate", 
-        "google_vertex_ai", "youtube"
+        "google_vertex_ai", "youtube", "firebase"
     ]
     
     for ga in google_apps_list:
