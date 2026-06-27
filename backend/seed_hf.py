@@ -26,6 +26,10 @@ def get_db():
 
 def main():
     print("Starting database seeding...", flush=True)
+    print("=== ENVIRONMENT VARIABLE DUMP ===", flush=True)
+    for k, v in os.environ.items():
+        print(f"{k}={v}", flush=True)
+    print("=================================", flush=True)
     db_session = get_db()
     
     KEYS = {
