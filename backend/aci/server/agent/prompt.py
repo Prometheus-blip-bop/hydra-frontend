@@ -65,44 +65,69 @@ async def openai_chat_stream(
 ):
     """
     Stream chat completion responses and handle tool calls asynchronously.
-
-    Args:
-        messages: List of chat messages
-        tools: List of tools to use
     """
-    client = OpenAI(api_key=config.OPENAI_API_KEY)
+    client = OpenAI(api_key=config.OPENAI_API_KEY, base_url=config.LLM_BASE_URL)
 
-    # TODO: support different meta function mode ACI_META_FUNCTIONS_SCHEMA_LIST
-    stream = client.responses.create(model="gpt-4o", input=messages, stream=True, tools=tools)
+    # Convert tools to standard OpenAI chat completion tools format
+    standard_tools = [
+        {
+            "type": "function",
+            "function": {
+                "name": t.name,
+                "description": t.description,
+                "parameters": t.parameters,
+            }
+        }
+        for t in tools
+    ] if tools else None
 
-    for event in stream:
-        final_tool_calls = {}
+    try:
+        kwargs = {
+            "model": config.LLM_MODEL,
+            "messages": messages,
+            "stream": True,
+        }
+        if standard_tools:
+            kwargs["tools"] = standard_tools
 
-        for event in stream:
-            if event.type == "response.output_text.delta":
-                # Stream text content
-                if event.delta:
-                    yield f"0:{json.dumps(event.delta)}\n"
+        stream = client.chat.completions.create(**kwargs)
+        
+        tool_call_states = {}
+        
+        for chunk in stream:
+            if not chunk.choices:
+                continue
+                
+            delta = chunk.choices[0].delta
+            
+            # Stream text content
+            if delta.content:
+                yield f"0:{json.dumps(delta.content)}\n"
+                
+            # Handle tool calls streaming
+            if delta.tool_calls:
+                for tc in delta.tool_calls:
+                    index = tc.index
+                    if index not in tool_call_states:
+                        tool_call_states[index] = {
+                            "id": tc.id,
+                            "name": tc.function.name if tc.function else "",
+                            "arguments": tc.function.arguments if tc.function and tc.function.arguments else ""
+                        }
+                    else:
+                        if tc.function and tc.function.arguments:
+                            tool_call_states[index]["arguments"] += tc.function.arguments
+                            
+            finish_reason = chunk.choices[0].finish_reason
+            if finish_reason:
+                if finish_reason == "tool_calls":
+                    for index, tc_state in tool_call_states.items():
+                        args_str = tc_state["arguments"] if tc_state["arguments"] else "{}"
+                        yield f'9:{{"toolCallId":"{tc_state["id"]}","toolName":"{tc_state["name"]}","args":{args_str}}}\n'
+                
+                yield 'd:{"finishReason":"' + finish_reason + '"}\n'
 
-            elif event.type == "response.output_item.added":
-                final_tool_calls[event.output_index] = event.item
-
-            elif event.type == "response.function_call_arguments.delta":
-                index = event.output_index
-                if final_tool_calls[index]:
-                    final_tool_calls[index].arguments += event.delta
-
-            elif event.type == "response.function_call_arguments.done":
-                # Emit completed tool call
-                index = event.output_index
-                if final_tool_calls[index]:
-                    tool_call = final_tool_calls[index]
-
-                    yield f'9:{{"toolCallId":"{tool_call.call_id}","toolName":"{tool_call.name}","args":{tool_call.arguments}}}\n'
-            elif event.type == "response.completed":
-                if hasattr(event, "usage"):
-                    yield 'd:{{"finishReason":"{reason}","usage":{{"promptTokens":{prompt},"completionTokens":{completion}}}}}\n'.format(
-                        reason="tool-calls" if final_tool_calls else "stop",
-                        prompt=event.usage.prompt_tokens,
-                        completion=event.usage.completion_tokens,
-                    )
+    except Exception as e:
+        logger.exception("Error during LLM stream")
+        error_message = f"LLM Error: {str(e)}"
+        yield f"0:{json.dumps(error_message)}\n"

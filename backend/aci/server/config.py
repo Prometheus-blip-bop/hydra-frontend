@@ -1,9 +1,12 @@
+import os
 from aci.common.utils import check_and_get_env_variable, construct_db_url
 
 ENVIRONMENT = check_and_get_env_variable("SERVER_ENVIRONMENT")
 
 # LLM
 OPENAI_API_KEY = check_and_get_env_variable("SERVER_OPENAI_API_KEY")
+LLM_BASE_URL = os.environ.get("SERVER_LLM_BASE_URL")
+LLM_MODEL = os.environ.get("SERVER_LLM_MODEL", "gpt-4o")
 OPENAI_EMBEDDING_MODEL = check_and_get_env_variable("SERVER_OPENAI_EMBEDDING_MODEL")
 OPENAI_EMBEDDING_DIMENSION = int(check_and_get_env_variable("SERVER_OPENAI_EMBEDDING_DIMENSION"))
 
