@@ -100,7 +100,7 @@ def main():
             upsert_schema = AppUpsert(**app_data)
             
             app_obj = apps.get_app(db_session, app_name, public_only=False, active_only=False)
-            dummy_embedding = [0.0] * 1536 
+            dummy_embedding = [0.0] * 1024 
             
             if not app_obj:
                 app_obj = apps.create_app(db_session, upsert_schema, app_embedding=dummy_embedding)
