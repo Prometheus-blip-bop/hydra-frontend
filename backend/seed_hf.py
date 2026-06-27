@@ -85,9 +85,13 @@ def main():
         with open(app_path, "r", encoding="utf-8") as f:
             app_data = json.load(f)
             
-        if "security_schemes" in app_data and "OAUTH2" in app_data["security_schemes"]:
-            app_data["security_schemes"]["OAUTH2"]["client_id"] = keys["id"]
-            app_data["security_schemes"]["OAUTH2"]["client_secret"] = keys["secret"]
+        if "security_schemes" in app_data:
+            if "oauth2" in app_data["security_schemes"]:
+                app_data["security_schemes"]["oauth2"]["client_id"] = keys["id"]
+                app_data["security_schemes"]["oauth2"]["client_secret"] = keys["secret"]
+            elif "OAUTH2" in app_data["security_schemes"]:
+                app_data["security_schemes"]["OAUTH2"]["client_id"] = keys["id"]
+                app_data["security_schemes"]["OAUTH2"]["client_secret"] = keys["secret"]
             
         app_data["visibility"] = Visibility.PUBLIC
         app_data["default_security_credentials_by_scheme"] = {}
