@@ -16,45 +16,42 @@ logger = get_logger(__name__)
 def convert_to_openai_messages(messages: list[ClientMessage]) -> list[ChatCompletionMessageParam]:
     """
     Convert a list of ClientMessage objects to a list of OpenAI messages.
-
-    Args:
-        messages: A list of ClientMessage objects
-
-    Returns:
-        A list of OpenAI messages
     """
     openai_messages = []
 
     for message in messages:
         if message.tool_invocations:
-            # Convert ToolInvocation objects to dictionaries before adding them
+            # Add the assistant message with tool calls
+            tool_calls = []
             for ti in message.tool_invocations:
-                openai_messages.append(
-                    {
-                        "type": "function_call",
-                        "call_id": ti.tool_call_id,
+                tool_calls.append({
+                    "id": ti.tool_call_id,
+                    "type": "function",
+                    "function": {
                         "name": ti.tool_name,
-                        "arguments": json.dumps(ti.args),
+                        "arguments": json.dumps(ti.args) if ti.args else "{}"
                     }
-                )
+                })
+            
+            openai_messages.append({
+                "role": "assistant",
+                "content": message.content or None,
+                "tool_calls": tool_calls
+            })
+
+            # Add the tool responses
+            for ti in message.tool_invocations:
                 if ti.result:
-                    openai_messages.append(
-                        {
-                            "type": "function_call_output",
-                            "call_id": ti.tool_call_id,
-                            "output": json.dumps(ti.result),
-                        }
-                    )
-            continue
+                    openai_messages.append({
+                        "role": "tool",
+                        "tool_call_id": ti.tool_call_id,
+                        "content": json.dumps(ti.result) if not isinstance(ti.result, str) else ti.result
+                    })
         else:
-            content = []
-            content.append(
-                {
-                    "type": "input_text" if message.role == "user" else "output_text",
-                    "text": message.content,
-                }
-            )
-            openai_messages.append({"role": message.role, "type": "message", "content": content})
+            openai_messages.append({
+                "role": message.role,
+                "content": message.content
+            })
 
     return openai_messages
 
