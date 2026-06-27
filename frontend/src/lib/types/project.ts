@@ -8,6 +8,10 @@ export interface Project {
   total_quota_used: number;
   created_at: string;
   updated_at: string;
+  llm_api_key?: string;
+  llm_base_url?: string;
+  llm_model?: string;
+  message_count?: number;
   agents: Agent[];
 }
 
