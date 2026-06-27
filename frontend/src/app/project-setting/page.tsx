@@ -21,12 +21,19 @@ export default function ProjectSettingPage() {
   const { activeProject } = useMetaInfo();
   const [projectName, setProjectName] = useState(activeProject.name);
   const [isEditingName, setIsEditingName] = useState(false);
+  const [llmApiKey, setLlmApiKey] = useState(activeProject.llm_api_key || "");
+  const [llmBaseUrl, setLlmBaseUrl] = useState(activeProject.llm_base_url || "");
+  const [llmModel, setLlmModel] = useState(activeProject.llm_model || "");
+
   const { mutateAsync: updateProject, isPending: isProjectUpdating } =
     useUpdateProject();
 
   // Update state when active project changes
   useEffect(() => {
     setProjectName(activeProject.name);
+    setLlmApiKey(activeProject.llm_api_key || "");
+    setLlmBaseUrl(activeProject.llm_base_url || "");
+    setLlmModel(activeProject.llm_model || "");
     setIsEditingName(false);
   }, [activeProject]);
 
@@ -51,6 +58,20 @@ export default function ProjectSettingPage() {
     } catch (error) {
       console.error("Failed to update project name:", error);
       toast.error("Failed to update project name");
+    }
+  };
+
+  const handleSaveLlmConfig = async () => {
+    try {
+      await updateProject({
+        llm_api_key: llmApiKey,
+        llm_base_url: llmBaseUrl,
+        llm_model: llmModel,
+      });
+      toast.success("AI Settings updated");
+    } catch (error) {
+      console.error("Failed to update AI settings:", error);
+      toast.error("Failed to update AI settings");
     }
   };
 
@@ -113,6 +134,59 @@ export default function ProjectSettingPage() {
                 </TooltipContent>
               </Tooltip>
             )}
+          </div>
+        </div>
+
+        <Separator />
+
+        {/* AI Settings Section */}
+        <div className="flex flex-row">
+          <div className="flex flex-col items-left w-80">
+            <div className="flex items-center gap-2">
+              <label className="font-semibold">AI Settings (BYOK)</label>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <span className="cursor-pointer">
+                    <BsQuestionCircle className="h-4 w-4 text-muted-foreground" />
+                  </span>
+                </TooltipTrigger>
+                <TooltipContent side="top">
+                  <p className="text-xs">Provide your own API Key to continue using the AI after the free tier limit is reached.</p>
+                </TooltipContent>
+              </Tooltip>
+            </div>
+            <p className="text-sm text-muted-foreground mt-1">
+              Configure your own LLM provider (Groq, OpenRouter, etc.).<br/>
+              <span className="font-medium text-orange-500">Free messages used: {activeProject.message_count || 0} / 10</span>
+            </p>
+          </div>
+          <div className="flex flex-col gap-4 w-96">
+            <Input
+              placeholder="API Key (e.g. gsk_... or sk-or-v1...)"
+              value={llmApiKey}
+              onChange={(e) => setLlmApiKey(e.target.value)}
+              disabled={isProjectUpdating}
+              type="password"
+            />
+            <Input
+              placeholder="Base URL (e.g. https://api.groq.com/openai/v1)"
+              value={llmBaseUrl}
+              onChange={(e) => setLlmBaseUrl(e.target.value)}
+              disabled={isProjectUpdating}
+            />
+            <Input
+              placeholder="Model (e.g. llama3-70b-8192)"
+              value={llmModel}
+              onChange={(e) => setLlmModel(e.target.value)}
+              disabled={isProjectUpdating}
+            />
+            <Button 
+              onClick={handleSaveLlmConfig} 
+              disabled={isProjectUpdating}
+              className="w-full"
+            >
+              Save AI Settings
+            </Button>
           </div>
         </div>
 

@@ -62,11 +62,18 @@ def convert_to_openai_messages(messages: list[ClientMessage]) -> list[ChatComple
 async def openai_chat_stream(
     messages: list[ChatCompletionMessageParam],
     tools: list[OpenAIResponsesFunctionDefinition],
+    api_key: str | None = None,
+    base_url: str | None = None,
+    model: str | None = None,
 ):
     """
     Stream chat completion responses and handle tool calls asynchronously.
     """
-    client = OpenAI(api_key=config.OPENAI_API_KEY, base_url=config.LLM_BASE_URL)
+    final_api_key = api_key if api_key else config.OPENAI_API_KEY
+    final_base_url = base_url if base_url else config.LLM_BASE_URL
+    final_model = model if model else config.LLM_MODEL
+
+    client = OpenAI(api_key=final_api_key, base_url=final_base_url)
 
     # Convert tools to standard OpenAI chat completion tools format
     standard_tools = [
@@ -83,7 +90,7 @@ async def openai_chat_stream(
 
     try:
         kwargs = {
-            "model": config.LLM_MODEL,
+            "model": final_model,
             "messages": messages,
             "stream": True,
         }

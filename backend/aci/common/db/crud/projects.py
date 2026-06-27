@@ -340,6 +340,12 @@ def update_project(
     """
     if update.name is not None:
         project.name = update.name
+    if update.llm_api_key is not None:
+        project.llm_api_key = update.llm_api_key if update.llm_api_key != "" else None
+    if update.llm_base_url is not None:
+        project.llm_base_url = update.llm_base_url if update.llm_base_url != "" else None
+    if update.llm_model is not None:
+        project.llm_model = update.llm_model if update.llm_model != "" else None
 
     db_session.flush()
     db_session.refresh(project)

@@ -20,6 +20,9 @@ class ProjectUpdate(BaseModel):
     """Schema for updating a project."""
 
     name: str | None = Field(None, min_length=1, description="Project name cannot be empty")
+    llm_api_key: str | None = Field(None, description="Custom LLM API Key")
+    llm_base_url: str | None = Field(None, description="Custom LLM Base URL")
+    llm_model: str | None = Field(None, description="Custom LLM Model Name")
 
 
 class ProjectPublic(BaseModel):
@@ -32,6 +35,11 @@ class ProjectPublic(BaseModel):
     api_quota_monthly_used: int
     api_quota_last_reset: datetime
     total_quota_used: int
+    
+    llm_api_key: str | None
+    llm_base_url: str | None
+    llm_model: str | None
+    message_count: int
 
     created_at: datetime
     updated_at: datetime

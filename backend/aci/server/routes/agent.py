@@ -62,7 +62,33 @@ async def handle_chat(
         func for func in selected_functions if isinstance(func, OpenAIResponsesFunctionDefinition)
     ]
 
-    response = StreamingResponse(openai_chat_stream(openai_messages, tools=tools))
+    project = context.project
+    llm_api_key = project.llm_api_key
+    llm_base_url = project.llm_base_url
+    llm_model = project.llm_model
+    
+    if not llm_api_key:
+        if project.message_count >= 10:
+            async def error_stream():
+                yield '0:"Free tier exhausted! Please visit Project Settings to provide your own LLM API Key."\n'
+            
+            response = StreamingResponse(error_stream())
+            response.headers["x-vercel-ai-data-stream"] = "v1"
+            return response
+            
+        project.message_count += 1
+        context.db_session.flush()
+        context.db_session.commit()
+
+    response = StreamingResponse(
+        openai_chat_stream(
+            openai_messages, 
+            tools=tools,
+            api_key=llm_api_key,
+            base_url=llm_base_url,
+            model=llm_model
+        )
+    )
     response.headers["x-vercel-ai-data-stream"] = "v1"
 
     return response

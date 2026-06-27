@@ -103,6 +103,12 @@ class Project(Base):
         init=False,
     )
     total_quota_used: Mapped[int] = mapped_column(Integer, default=0, nullable=False, init=False)
+    
+    # BYOK Fields
+    llm_api_key: Mapped[str | None] = mapped_column(String(MAX_STRING_LENGTH), nullable=True, default=None)
+    llm_base_url: Mapped[str | None] = mapped_column(String(MAX_STRING_LENGTH), nullable=True, default=None)
+    llm_model: Mapped[str | None] = mapped_column(String(MAX_STRING_LENGTH), nullable=True, default=None)
+    message_count: Mapped[int] = mapped_column(Integer, default=0, nullable=False, server_default="0", init=False)
 
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=False), server_default=func.now(), nullable=False, init=False
