@@ -13,6 +13,7 @@ import { SubscriptionDisplay } from "@/components/settings/subscription-display"
 import { ProjectNameEditor } from "@/components/settings/project-name-editor";
 import { DangerZone } from "@/components/settings/danger-zone";
 import { OrgMembersTable } from "@/components/settings/org-members-table";
+import { LlmConfigEditor } from "@/components/settings/llm-config-editor";
 
 export default function SettingsPage() {
   const { user, activeOrg, accessToken, activeProject, reloadActiveProject } =
@@ -81,6 +82,7 @@ export default function SettingsPage() {
             projectName={activeProject.name}
             onSave={handleSaveProjectName}
           />
+          <LlmConfigEditor />
 
           <DangerZone projectName={activeProject.name} />
         </SettingsSection>
