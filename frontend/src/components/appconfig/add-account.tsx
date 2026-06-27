@@ -171,7 +171,7 @@ export function AddAccountForm({ appInfos }: AddAccountProps) {
       const oauth2LinkURL = await fetchOath2LinkURL(
         appName,
         linkedAccountOwnerId,
-        `${process.env.NEXT_PUBLIC_DEV_PORTAL_URL}/appconfigs/${appName}`,
+        `${process.env.NEXT_PUBLIC_DEV_PORTAL_URL || window.location.origin}/appconfigs/${appName}`,
       );
       window.location.href = oauth2LinkURL;
     } catch (error) {

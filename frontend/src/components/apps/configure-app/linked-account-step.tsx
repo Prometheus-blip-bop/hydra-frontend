@@ -150,7 +150,7 @@ export function LinkedAccountStep({
     try {
       const oauth2LinkURL = await fetchOAuth2LinkURL(
         linkedAccountOwnerId,
-        `${process.env.NEXT_PUBLIC_DEV_PORTAL_URL}/appconfigs/${appName}`,
+        `${process.env.NEXT_PUBLIC_DEV_PORTAL_URL || window.location.origin}/appconfigs/${appName}`,
       );
       window.location.href = oauth2LinkURL;
     } catch (error) {
