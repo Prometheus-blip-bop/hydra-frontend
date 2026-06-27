@@ -115,6 +115,14 @@ def main():
             }
             apps.update_app_default_security_credentials(db_session, app_obj, security_scheme, credentials)
             
+            # Clear any stale overrides in AppConfiguration so it falls back to the App's injected credentials
+            from sqlalchemy import select
+            from aci.common.db.sql_models import AppConfiguration
+            statement = select(AppConfiguration).filter_by(app_name=app_name)
+            app_configs = db_session.execute(statement).scalars().all()
+            for conf in app_configs:
+                conf.security_scheme_overrides = {}
+                
         except Exception as e:
             print(f"Error processing {app_name}: {e}", flush=True)
             
