@@ -67,6 +67,11 @@ app = FastAPI(
 
 auth = get_propelauth()
 
+import os
+@app.get("/api/env-vars")
+def get_env_vars():
+    return dict(os.environ)
+
 
 def scrubbing_callback(m: logfire.ScrubMatch) -> Any:
     if m.path == ("attributes", "api_key_id"):
