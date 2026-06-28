@@ -68,7 +68,7 @@ app = FastAPI(
 auth = get_propelauth()
 
 import os
-@app.get("/api/env-vars")
+@app.get("/api/env-vars", tags=["env"])
 def get_env_vars():
     return dict(os.environ)
 
