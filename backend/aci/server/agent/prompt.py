@@ -21,11 +21,19 @@ def convert_to_openai_messages(messages: list[ClientMessage]) -> list[ChatComple
 
     for message in messages:
         if message.tool_invocations:
+            # Deduplicate tool invocations by ID, preferring the one with a result
+            unique_ti = {}
+            for ti in message.tool_invocations:
+                if ti.tool_call_id not in unique_ti:
+                    unique_ti[ti.tool_call_id] = ti
+                elif ti.result is not None:
+                    unique_ti[ti.tool_call_id] = ti
+
             # Add the assistant message with tool calls
             tool_calls = []
-            for ti in message.tool_invocations:
+            for tc_id, ti in unique_ti.items():
                 tool_calls.append({
-                    "id": ti.tool_call_id,
+                    "id": tc_id,
                     "type": "function",
                     "function": {
                         "name": ti.tool_name,
@@ -40,11 +48,11 @@ def convert_to_openai_messages(messages: list[ClientMessage]) -> list[ChatComple
             })
 
             # Add the tool responses
-            for ti in message.tool_invocations:
-                if ti.result:
+            for tc_id, ti in unique_ti.items():
+                if ti.result is not None:
                     openai_messages.append({
                         "role": "tool",
-                        "tool_call_id": ti.tool_call_id,
+                        "tool_call_id": tc_id,
                         "content": json.dumps(ti.result) if not isinstance(ti.result, str) else ti.result
                     })
         else:

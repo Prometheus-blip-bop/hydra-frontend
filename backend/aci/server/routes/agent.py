@@ -53,6 +53,15 @@ async def handle_chat(
     """
 
     openai_messages = convert_to_openai_messages(agent_chat.messages)
+
+    if agent_chat.selected_apps:
+        apps_list = ", ".join(agent_chat.selected_apps)
+        system_prompt = f"You are a helpful AI assistant. You have access to the following connected apps: {apps_list}. You MUST be aware of these apps and can interact with them using the provided tools. If the user asks what apps you have access to, or what you can do, tell them based on this list."
+    else:
+        system_prompt = "You are a helpful AI assistant. No apps are currently connected."
+
+    openai_messages.insert(0, {"role": "system", "content": system_prompt})
+
     # TODO: support different meta function mode.
     selected_functions = await get_functions_definitions(
         context.db_session, agent_chat.selected_functions, FunctionDefinitionFormat.OPENAI_RESPONSES
